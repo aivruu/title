@@ -9,9 +9,9 @@ To know how to works the API and how to you can uses see the library wiki.
 
 Features:
 * Support for Spigot (Paper or another forks).
-* Support for versions 1.8.x - 1.19.x.
+* Multiple adapts for handle the majory Minecraft versions.
 * Easy to use.
-* Fast and lightweight.
+* Fast, Lightweight and flexible.
 
 You can view a detailed example [here](docs/ExamplePlugin.java).
 
