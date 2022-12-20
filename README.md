@@ -13,6 +13,8 @@ Features:
 * Easy to use.
 * Fast and lightweight.
 
+You can view a detailed example [here](docs/ExamplePlugin.java).
+
 # 🛠️ | Installation
 XTools installation is very easy, you can import the library using a dependency manager such as Maven or Gradle. Or just add the jar to BuildPath of your project.
 
