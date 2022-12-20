@@ -1,6 +1,9 @@
 # ⚙️ | XTitle
 XTitle is a Spigot Plugin Development library. Simple and easy to use that allows you send Titles and ActionBars at the distinct Minecraft versions.
 
+[![](https://jitpack.io/v/InitSync/XTitle.svg)](https://jitpack.io/#InitSync/XTitle)
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/c6aa86d7571b459b99de59a86ecb5e6f)](https://www.codacy.com/gh/InitSync/XTitle/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=InitSync/XTitle&amp;utm_campaign=Badge_Grade)
+
 # Usage
 To know how to works the API and how to you can uses see the library wiki.
 
