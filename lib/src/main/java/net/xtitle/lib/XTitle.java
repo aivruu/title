@@ -7,16 +7,16 @@ import org.bukkit.Bukkit;
 
 public interface XTitle {
 	/**
-	 * Returns true if the introduced version number is major than the server version that's running.
+	 * Returns true if the server version that's running is equals or higher than the version specified.
 	 * Overwise will be return false.
 	 *
 	 * @param version The version number. Example: 8 (1.8)
 	 * @return A boolean value.
 	 */
 	static boolean supports(int version) {
-		return version >= Integer.parseInt(Bukkit.getBukkitVersion()
+		return Integer.parseInt(Bukkit.getBukkitVersion()
 			 .split("-")[0]
-			 .split("\\.")[1]);
+			 .split("\\.")[1]) >= version;
 	}
 	
 	/**
