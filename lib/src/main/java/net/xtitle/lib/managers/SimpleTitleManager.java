@@ -25,7 +25,7 @@ implements TitleManager {
 	@Override
 	public void clearTitle(Player player) {
 		// Checks if the server version is equals or higher to 1.17
-		if (XTitle.supports(17)) player.resetTitle();
+		if (XTitle.canSupport(17)) player.resetTitle();
 		else adapt.clearTitle(player);
 	}
 	
@@ -39,7 +39,7 @@ implements TitleManager {
 	@Override
 	public void sendTitle(Player player, String title, String subtitle) {
 		// Checks if the server version is equals or higher to 1.17
-		if (XTitle.supports(17)) player.sendTitle(title, subtitle, 20, 60, 20);
+		if (XTitle.canSupport(17)) player.sendTitle(title, subtitle, 20, 60, 20);
 		else adapt.sendTitle(player, title, subtitle);
 	}
 	
@@ -56,7 +56,7 @@ implements TitleManager {
 	@Override
 	public void sendTitle(Player player, int fadeIn, int stay, int fadeOut, String title, String subtitle) {
 		// Checks if the server version is equals or higher to 1.17
-		if (XTitle.supports(17)) player.sendTitle(title, subtitle, fadeIn, stay, fadeOut);
+		if (XTitle.canSupport(17)) player.sendTitle(title, subtitle, fadeIn, stay, fadeOut);
 		else adapt.sendTitle(player, title, subtitle, fadeIn, stay, fadeOut);
 	}
 	
@@ -69,7 +69,7 @@ implements TitleManager {
 	@Override
 	public void sendActionBar(Player player, String message) {
 		// Checks if the server version is equals or higher to 1.17
-		if (XTitle.supports(17)) player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(message));
+		if (XTitle.canSupport(17)) player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(message));
 		else adapt.sendActionBar(player, message);
 	}
 	
@@ -94,7 +94,7 @@ implements TitleManager {
 			@Override
 			public void run() {
 				// Checks if the server version is equals or higher to 1.17
-				if (XTitle.supports(17)) player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(message));
+				if (XTitle.canSupport(17)) player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(message));
 				else adapt.sendActionBar(player, message);
 				
 				repeater -= 40L;

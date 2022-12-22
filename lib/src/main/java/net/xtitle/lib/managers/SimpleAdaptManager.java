@@ -21,7 +21,7 @@ implements AdaptManager {
 	@Override
 	public void adapt(SimpleAdapt adapt) {
 		// If the server version is equals or higher to 1.17, the adapt is not necessary.
-		if (XTitle.supports(17)) return;
+		if (XTitle.canSupport(17)) return;
 		
 		// Checks if the adapt to set is null.
 		if (adapt == null) throw new IllegalArgumentException("The adapt to set can't be null, please specify a valid adapt.");
