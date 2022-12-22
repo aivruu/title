@@ -20,10 +20,10 @@ implements CommandExecutor, TabCompleter, Listener {
 	
 	@Override
 	public void onLoad() {
-		adaptManager = XTitle.adaptManager();
+		adaptManager = XTitle.newAdaptManager();
 		adaptManager.adapt(new AdaptHandler());
 		
-		titleManager = XTitle.titleManager(adaptManager.getAdapt());
+		titleManager = XTitle.newTitleManager(adaptManager.getAdapt());
 	}
 	
 	@Override
@@ -32,7 +32,7 @@ implements CommandExecutor, TabCompleter, Listener {
 		
 		getServer().getPluginManager().registerEvents(this, this);
 		
-		getCommand().setExecutor((sender, command, label, args) -> {
+		getCommand("xtitle").setExecutor((sender, command, label, args) -> {
 			if (!(sender instanceof Player)) return false;
 			
 			Player player = (Player) sender;
@@ -58,7 +58,7 @@ implements CommandExecutor, TabCompleter, Listener {
 			return false;
 		});
 		
-		getCommand().setTabCompleter((sender, command, label, args) -> {
+		getCommand("xtitle").setTabCompleter((sender, command, label, args) -> {
 			if (commandArgs.isEmpty()) {
 				commandArgs.add("title");
 				commandArgs.add("cleartitle");
