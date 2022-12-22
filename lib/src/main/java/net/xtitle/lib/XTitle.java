@@ -13,7 +13,7 @@ public interface XTitle {
 	 * @param version The version number. Example: 8 (1.8)
 	 * @return A boolean value.
 	 */
-	static boolean supports(int version) {
+	static boolean canSupport(int version) {
 		return Integer.parseInt(Bukkit.getBukkitVersion()
 			 .split("-")[0]
 			 .split("\\.")[1]) >= version;
@@ -24,7 +24,7 @@ public interface XTitle {
 	 *
 	 * @return a SimpleAdaptManager instance.
 	 */
-	static SimpleAdaptManager adaptManager() {
+	static SimpleAdaptManager newAdaptManager() {
 		return new SimpleAdaptManager();
 	}
 	
@@ -34,7 +34,7 @@ public interface XTitle {
 	 * @param adapt A SimpleAdapt object, this object can be null for the versions 1.17 or newer.
 	 * @return A SimpleTitleManager instance.
 	 */
-	static SimpleTitleManager titleManager(SimpleAdapt adapt) {
+	static SimpleTitleManager newTitleManager(SimpleAdapt adapt) {
 		return new SimpleTitleManager(adapt);
 	}
 }
