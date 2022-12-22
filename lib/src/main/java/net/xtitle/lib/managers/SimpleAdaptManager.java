@@ -41,7 +41,7 @@ implements AdaptManager {
 		String version = packageName.substring(packageName.lastIndexOf('.') + 1);
 		
 		try {
-			Class<?> clazz = Class.forName("net.xtitle.adapt." + version);
+			Class<?> clazz = Class.forName("net.xtitle.adapt." + version + ".AdaptHandler");
 			if (SimpleAdapt.class.isAssignableFrom(clazz)) adapt = (SimpleAdapt) clazz.getConstructor().newInstance();
 		} catch (InvocationTargetException | InstantiationException | NoSuchMethodException
 					| ClassNotFoundException | IllegalAccessException exception) {
