@@ -6,7 +6,7 @@ import org.bukkit.event.Listener;
 import net.xtitle.api.AdaptManager;
 import net.xtitle.api.TitleManager;
 import net.xtitle.lib.XTitle;
-import net.xtitle.adapt.v1_8_R3;
+import net.xtitle.adapt.v1_8_R3.AdaptHandler;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -21,7 +21,7 @@ implements CommandExecutor, TabCompleter, Listener {
 	@Override
 	public void onLoad() {
 		adaptManager = XTitle.adaptManager();
-		adaptManager.adapt(new v1_8_R3());
+		adaptManager.adapt(new AdaptHandler());
 		
 		titleManager = XTitle.titleManager(adaptManager.getAdapt());
 	}
