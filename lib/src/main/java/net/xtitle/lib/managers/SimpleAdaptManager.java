@@ -1,5 +1,6 @@
 package net.xtitle.lib.managers;
 
+import com.google.common.base.Preconditions;
 import net.xtitle.api.AdaptManager;
 import net.xtitle.api.adapt.SimpleAdapt;
 import net.xtitle.lib.XTitle;
@@ -13,25 +14,16 @@ implements AdaptManager {
 	
 	public SimpleAdaptManager() {}
 	
-	/**
-	 * Set up the adapt correspond to use.
-	 *
-	 * @param adapt The adapt for the server version that will be use.
-	 */
 	@Override
 	public void adapt(SimpleAdapt adapt) {
+		Preconditions.checkNotNull(adapt, "The adapt to set can't be null, please specify a valid adapt.");
+		
 		// If the server version is equals or higher to 1.17, the adapt is not necessary.
 		if (XTitle.canSupport(17)) return;
-		
-		// Checks if the adapt to set is null.
-		if (adapt == null) throw new IllegalArgumentException("The adapt to set can't be null, please specify a valid adapt.");
 		
 		this.adapt = adapt;
 	}
 	
-	/**
-	 * Search automatically the adapt correspond to the server version for use.
-	 */
 	@Override
 	public void findAdapt() {
 		String packageName = Bukkit.getServer()
@@ -51,11 +43,6 @@ implements AdaptManager {
 		}
 	}
 	
-	/**
-	 * Returns the current SimpleData object. This will be return null if there not set an adapt.
-	 *
-	 * @return A SimpleAdapt object or null.
-	 */
 	@Override
 	public SimpleAdapt getAdapt() {
 		return adapt;
