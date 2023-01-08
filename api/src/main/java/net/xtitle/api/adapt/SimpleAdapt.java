@@ -36,6 +36,15 @@ public interface SimpleAdapt {
 	void sendTitle(Player player, String title, String subtitle, int fadeIn, int stay, int fadeOut);
 	
 	/**
+	 * Sets a new TabList (Header/Footer) format for the player.
+	 *
+	 * @param player Player object.
+	 * @param header Header text.
+	 * @param footer Footer text.
+	 */
+	void sendTabList(Player player, String header, String footer);
+	
+	/**
 	 * Send an actionbar to player.
 	 *
 	 * @param player Player object.
