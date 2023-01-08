@@ -1,5 +1,6 @@
 package net.xtitle.adapt.v1_13_R2;
 
+import net.minecraft.server.v1_13_R2.PacketPlayOutPlayerListHeaderFooter;
 import net.minecraft.server.v1_13_R2.PacketPlayOutTitle;
 import net.minecraft.server.v1_13_R2.PacketPlayOutChat;
 import net.minecraft.server.v1_13_R2.PlayerConnection;
@@ -12,17 +13,7 @@ import org.bukkit.entity.Player;
 public class AdaptHandler
 implements SimpleAdapt {
 	public AdaptHandler() {}
-	
-	/**
-	 * Send a title with times settings.
-	 *
-	 * @param player   Player object.
-	 * @param title    Title message.
-	 * @param subtitle Subtitle message.
-	 * @param fadeIn   In-coming time.
-	 * @param stay     Staying time.
-	 * @param fadeOut  Outing time.
-	 */
+
 	@Override
 	public void sendTitle(Player player, String title, String subtitle, int fadeIn, int stay, int fadeOut) {
 		PlayerConnection connection = ((CraftPlayer) player).getHandle().playerConnection;
@@ -38,12 +29,15 @@ implements SimpleAdapt {
 		);
 	}
 	
-	/**
-	 * Send an actionbar to player.
-	 *
-	 * @param player  Player object.
-	 * @param message Message to send.
-	 */
+	@Override
+	public void sendTabList(Player player, String header, String footer) {
+		PacketPlayOutPlayerListHeaderFooter packet = new PacketPlayOutPlayerListHeaderFooter();
+		packet.header = IChatBaseComponent.ChatSerializer.a("{\"text\": \"" + header + "\"}");
+		packet.footer = IChatBaseComponent.ChatSerializer.a("{\"text\": \"" + footer + "\"}");
+		
+		((CraftPlayer) player).getHandle().playerConnection.sendPacket(packet);
+	}
+	
 	@Override
 	public void sendActionBar(Player player, String message) {
 		((CraftPlayer) player).getHandle()
