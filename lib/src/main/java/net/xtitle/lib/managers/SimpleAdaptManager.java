@@ -26,14 +26,10 @@ implements AdaptManager {
 	
 	@Override
 	public void findAdapt() {
-		String packageName = Bukkit.getServer()
-			 .getClass()
-			 .getPackage()
-			 .getName();
-		String version = packageName.substring(packageName.lastIndexOf('.') + 1);
+		String packageName = Bukkit.getServer().getClass().getPackage().getName();
 		
 		try {
-			Class<?> clazz = Class.forName("net.xtitle.adapt." + version + ".AdaptHandler");
+			Class<?> clazz = Class.forName("net.xtitle.adapt." + packageName.substring(packageName.lastIndexOf('.') + 1) + ".AdaptHandler");
 			if (SimpleAdapt.class.isAssignableFrom(clazz)) adapt = (SimpleAdapt) clazz.getConstructor().newInstance();
 		} catch (InvocationTargetException | InstantiationException | NoSuchMethodException
 					| ClassNotFoundException | IllegalAccessException exception) {
