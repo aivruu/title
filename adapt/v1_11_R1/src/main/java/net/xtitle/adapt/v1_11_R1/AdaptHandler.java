@@ -1,27 +1,23 @@
 package net.xtitle.adapt.v1_11_R1;
 
+import io.netty.buffer.Unpooled;
 import net.minecraft.server.v1_11_R1.IChatBaseComponent;
+import net.minecraft.server.v1_11_R1.PacketDataSerializer;
 import net.minecraft.server.v1_11_R1.PacketPlayOutChat;
+import net.minecraft.server.v1_11_R1.PacketPlayOutPlayerListHeaderFooter;
 import net.minecraft.server.v1_11_R1.PacketPlayOutTitle;
 import net.minecraft.server.v1_11_R1.PlayerConnection;
 import net.xtitle.api.adapt.SimpleAdapt;
 import org.bukkit.craftbukkit.v1_11_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 
+import java.io.IOException;
+import java.lang.reflect.Field;
+
 public class AdaptHandler
 implements SimpleAdapt {
 	public AdaptHandler() {}
 	
-	/**
-	 * Send a title with times settings.
-	 *
-	 * @param player   Player object.
-	 * @param title    Title message.
-	 * @param subtitle Subtitle message.
-	 * @param fadeIn   In-coming time.
-	 * @param stay     Staying time.
-	 * @param fadeOut  Outing time.
-	 */
 	@Override
 	public void sendTitle(Player player, String title, String subtitle, int fadeIn, int stay, int fadeOut) {
 		PlayerConnection connection = ((CraftPlayer) player).getHandle().playerConnection;
@@ -37,12 +33,22 @@ implements SimpleAdapt {
 		);
 	}
 	
-	/**
-	 * Send an actionbar to player.
-	 *
-	 * @param player  Player object.
-	 * @param message Message to send.
-	 */
+	@Override
+	public void sendTabList(Player player, String header, String footer) {
+		PacketPlayOutPlayerListHeaderFooter packet = new PacketPlayOutPlayerListHeaderFooter();
+		PacketDataSerializer dataSerializer = new PacketDataSerializer(Unpooled.buffer());
+		
+		try {
+			dataSerializer.a(IChatBaseComponent.ChatSerializer.a("{\"text\": \"" + footer + "\"}"));
+			packet.a(dataSerializer);
+			
+			dataSerializer.a(IChatBaseComponent.ChatSerializer.a("{\"text\": \"" + header + "\"}"));
+			packet.a(dataSerializer);
+		} catch (IOException exception) { exception.printStackTrace(); }
+		
+		((CraftPlayer) player).getHandle().playerConnection.sendPacket(packet);
+	}
+	
 	@Override
 	public void sendActionBar(Player player, String message) {
 		((CraftPlayer) player).getHandle()
