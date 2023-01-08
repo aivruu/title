@@ -33,6 +33,15 @@ public interface TitleManager {
 	void sendTitle(Player player, int fadeIn, int stay, int fadeOut, String title, String subtitle);
 	
 	/**
+	 * Sends a new Header/Footer format for the player tab-list.
+	 *
+	 * @param player Player object.
+	 * @param header TabList Header text.
+	 * @param footer TabList Footer text.
+	 */
+	void sendTabList(Player player, String header, String footer);
+	
+	/**
 	 * Sends an actionbar to player without a duration.
 	 *
 	 * @param player Player object.
