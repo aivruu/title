@@ -5,14 +5,12 @@ import org.bukkit.command.TabCompleter;
 import org.bukkit.event.Listener;
 import net.xtitle.api.AdaptManager;
 import net.xtitle.api.TitleManager;
-import net.xtitle.lib.XTitle;
+import net.xtitle.api.XTitle;
 import net.xtitle.adapt.v1_8_R3.AdaptHandler;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
-public final class ExamplePlugin
-extends JavaPlugin
-implements CommandExecutor, TabCompleter, Listener {
+public final class ExamplePlugin extends JavaPlugin implements CommandExecutor, TabCompleter, Listener {
 	private final List<String> commandArgs = new ArrayList<>();
 	
 	private AdaptManager adaptManager;
@@ -83,6 +81,7 @@ implements CommandExecutor, TabCompleter, Listener {
 		
 		titleManager.sendTitle(player, 20, 60, 20, "Hello!", "Title Example!");
 		titleManager.sendActionBar(this, player, "ActionBar Example!", 100);
+		titleManager.sendTabList(player, "- TabList Header -", "- TabList Footer -");
 	}
 	
 	@Override
