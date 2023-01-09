@@ -1,6 +1,6 @@
 package net.xtitle.adapt.v1_11_R1;
 
-import io.netty.buffer.Unpooled;
+import io.netty.buffer.ByteBufAllocator;
 import net.minecraft.server.v1_11_R1.IChatBaseComponent;
 import net.minecraft.server.v1_11_R1.PacketDataSerializer;
 import net.minecraft.server.v1_11_R1.PacketPlayOutChat;
@@ -12,7 +12,6 @@ import org.bukkit.craftbukkit.v1_11_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 
 import java.io.IOException;
-import java.lang.reflect.Field;
 
 public class AdaptHandler
 implements SimpleAdapt {
@@ -36,13 +35,11 @@ implements SimpleAdapt {
 	@Override
 	public void sendTabList(Player player, String header, String footer) {
 		PacketPlayOutPlayerListHeaderFooter packet = new PacketPlayOutPlayerListHeaderFooter();
-		PacketDataSerializer dataSerializer = new PacketDataSerializer(Unpooled.buffer());
+		PacketDataSerializer dataSerializer = new PacketDataSerializer(ByteBufAllocator.DEFAULT.buffer());
 		
 		try {
-			dataSerializer.a(IChatBaseComponent.ChatSerializer.a("{\"text\": \"" + footer + "\"}"));
-			packet.a(dataSerializer);
-			
 			dataSerializer.a(IChatBaseComponent.ChatSerializer.a("{\"text\": \"" + header + "\"}"));
+			dataSerializer.a(IChatBaseComponent.ChatSerializer.a("{\"text\": \"" + footer + "\"}"));
 			packet.a(dataSerializer);
 		} catch (IOException exception) { exception.printStackTrace(); }
 		

@@ -1,6 +1,6 @@
 package net.xtitle.adapt.v1_8_R1;
 
-import io.netty.buffer.Unpooled;
+import io.netty.buffer.ByteBufAllocator;
 import net.minecraft.server.v1_8_R1.EnumTitleAction;
 import net.minecraft.server.v1_8_R1.ChatSerializer;
 import net.minecraft.server.v1_8_R1.PacketDataSerializer;
@@ -28,12 +28,10 @@ implements SimpleAdapt {
 	@Override
 	public void sendTabList(Player player, String header, String footer) {
 		PacketPlayOutPlayerListHeaderFooter packet = new PacketPlayOutPlayerListHeaderFooter();
-		PacketDataSerializer dataSerializer = new PacketDataSerializer(Unpooled.buffer());
-		
-		dataSerializer.a(ChatSerializer.a("{\"text\": \"" + footer + "\"}"));
-		packet.a(dataSerializer);
+		PacketDataSerializer dataSerializer = new PacketDataSerializer(ByteBufAllocator.DEFAULT.buffer());
 		
 		dataSerializer.a(ChatSerializer.a("{\"text\": \"" + header + "\"}"));
+		dataSerializer.a(ChatSerializer.a("{\"text\": \"" + footer + "\"}"));
 		packet.a(dataSerializer);
 		
 		((CraftPlayer) player).getHandle().playerConnection.sendPacket(packet);

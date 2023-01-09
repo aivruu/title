@@ -1,6 +1,6 @@
 package net.xtitle.adapt.v1_12_R1;
 
-import io.netty.buffer.Unpooled;
+import io.netty.buffer.ByteBufAllocator;
 import net.minecraft.server.v1_12_R1.PacketDataSerializer;
 import net.minecraft.server.v1_12_R1.PacketPlayOutPlayerListHeaderFooter;
 import net.minecraft.server.v1_12_R1.PacketPlayOutTitle;
@@ -36,13 +36,11 @@ implements SimpleAdapt {
 	@Override
 	public void sendTabList(Player player, String header, String footer) {
 		PacketPlayOutPlayerListHeaderFooter packet = new PacketPlayOutPlayerListHeaderFooter();
-		PacketDataSerializer dataSerializer = new PacketDataSerializer(Unpooled.buffer());
+		PacketDataSerializer dataSerializer = new PacketDataSerializer(ByteBufAllocator.DEFAULT.buffer());
 		
 		try {
-			dataSerializer.a(IChatBaseComponent.ChatSerializer.a("{\"text\": \"" + footer + "\"}"));
-			packet.a(dataSerializer);
-			
 			dataSerializer.a(IChatBaseComponent.ChatSerializer.a("{\"text\": \"" + header + "\"}"));
+			dataSerializer.a(IChatBaseComponent.ChatSerializer.a("{\"text\": \"" + footer + "\"}"));
 			packet.a(dataSerializer);
 		} catch (IOException exception) { exception.printStackTrace(); }
 		
