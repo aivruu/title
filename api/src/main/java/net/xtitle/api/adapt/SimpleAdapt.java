@@ -2,6 +2,9 @@ package net.xtitle.api.adapt;
 
 import org.bukkit.entity.Player;
 
+/**
+ * Object for manage the internal implementations for the adapts on NMS.
+ */
 public interface SimpleAdapt {
 	/**
 	 * Default method for send just a title and subtitle.

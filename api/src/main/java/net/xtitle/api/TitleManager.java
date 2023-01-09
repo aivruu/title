@@ -3,6 +3,9 @@ package net.xtitle.api;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
+/**
+ * Interface for manage and send visual Titles, ActionBars or Headers/Footers.
+ */
 public interface TitleManager {
 	/**
 	 * Reset the current title of player.
