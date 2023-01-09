@@ -17,7 +17,7 @@ dependencies {
 
 tasks {
 	shadowJar {
-		archiveFileName.set("XTitle-api-$release.jar")
+		archiveFileName.set("XTitle-$release.jar")
 		destinationDirectory.set(file("$rootDir/bin/"))
 	}
 	
