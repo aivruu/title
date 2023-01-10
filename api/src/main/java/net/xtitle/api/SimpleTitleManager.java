@@ -72,7 +72,10 @@ public class SimpleTitleManager implements TitleManager {
 		if (canSupport(17)) player.setPlayerListHeaderFooter(header, footer);
 		else {
 			assert serverAdapt != null;
-			serverAdapt.sendTabList(player, header, footer);
+			// I don't know why, but I don't think that this be a bug.
+			// For legacy servers using NMS native the header and footer are inverted.
+			// So, the header is the footer, and the footer is the header, something like that :8
+			serverAdapt.sendTabList(player, footer, header);
 		}
 	}
 	
