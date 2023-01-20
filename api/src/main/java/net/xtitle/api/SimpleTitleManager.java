@@ -71,7 +71,7 @@ public class SimpleTitleManager implements TitleManager {
 	}
 	
 	@Override
-	public void sendTabList(Player player, String header, String footer) {
+	public void sendTabList(Player player, String footer, String header) {
 		checkNotNull(player, "The player can't be null.");
 		
 		// Checks if the server version is equals or higher to 1.13
