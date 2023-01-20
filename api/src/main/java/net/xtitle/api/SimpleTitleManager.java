@@ -22,12 +22,14 @@ public class SimpleTitleManager implements TitleManager {
 	public void clearTitle(Player player) {
 		checkNotNull(player, "The player can't be null.");
 		
-		// Checks if the server version is equals or higher to 1.17
-		if (canSupport(17)) player.resetTitle();
-		else {
-			assert serverAdapt != null;
-			serverAdapt.clearTitle(player);
+		// Checks if the server version is equals or higher to 1.13
+		if (canSupport(13)) {
+			player.resetTitle();
+			return;
 		}
+		
+		assert serverAdapt != null;
+		serverAdapt.clearTitle(player);
 	}
 	
 	@Override
@@ -39,12 +41,14 @@ public class SimpleTitleManager implements TitleManager {
 		checkArgument(!title.isEmpty(), "The title can't be empty. If you want to send an empty title use the clearTitle() method.");
 		checkArgument(!subtitle.isEmpty(), "The title can't be empty. If you want to send an empty title use the clearTitle() method.");
 		
-		// Checks if the server version is equals or higher to 1.17
-		if (canSupport(17)) player.sendTitle(title, subtitle, 20, 60, 20);
-		else {
-			assert serverAdapt != null;
-			serverAdapt.sendTitle(player, title, subtitle);
+		// Checks if the server version is equals or higher to 1.13
+		if (canSupport(13)) {
+			player.sendTitle(title, subtitle, 20, 60, 20);
+			return;
 		}
+		
+		assert serverAdapt != null;
+		serverAdapt.sendTitle(player, title, subtitle);
 	}
 	
 	@Override
@@ -56,27 +60,31 @@ public class SimpleTitleManager implements TitleManager {
 		checkArgument(!title.isEmpty(), "The title can't be empty. If you want to send an empty title use the clearTitle() method.");
 		checkArgument(!subtitle.isEmpty(), "The title can't be empty. If you want to send an empty title use the clearTitle() method.");
 		
-		// Checks if the server version is equals or higher to 1.17
-		if (canSupport(17)) player.sendTitle(title, subtitle, fadeIn, stay, fadeOut);
-		else {
-			assert serverAdapt != null;
-			serverAdapt.sendTitle(player, title, subtitle, fadeIn, stay, fadeOut);
+		// Checks if the server version is equals or higher to 1.13
+		if (canSupport(13)) {
+			player.sendTitle(title, subtitle, fadeIn, stay, fadeOut);
+			return;
 		}
+		
+		assert serverAdapt != null;
+		serverAdapt.sendTitle(player, title, subtitle, fadeIn, stay, fadeOut);
 	}
 	
 	@Override
 	public void sendTabList(Player player, String header, String footer) {
 		checkNotNull(player, "The player can't be null.");
 		
-		// Checks if the server version is equals or higher to 1.17
-		if (canSupport(17)) player.setPlayerListHeaderFooter(header, footer);
-		else {
-			assert serverAdapt != null;
-			// I don't know why, but I don't think that this be a bug.
-			// For legacy servers using NMS native the header and footer are inverted.
-			// So, the header is the footer, and the footer is the header, something like that :8
-			serverAdapt.sendTabList(player, footer, header);
+		// Checks if the server version is equals or higher to 1.13
+		if (canSupport(13)) {
+			player.setPlayerListHeaderFooter(header, footer);
+			return;
 		}
+		
+		assert serverAdapt != null;
+		// I don't know why, but I don't think that this be a bug.
+		// For legacy servers using NMS native the header and footer are inverted.
+		// So, the header is the footer, and the footer is the header, something like that :8
+		serverAdapt.sendTabList(player, footer, header);
 	}
 	
 	@Override
@@ -86,12 +94,14 @@ public class SimpleTitleManager implements TitleManager {
 		
 		checkArgument(!message.isEmpty(), "The actionbar message can't be empty.");
 		
-		// Checks if the server version is equals or higher to 1.17
-		if (canSupport(17)) player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(message));
-		else {
-			assert serverAdapt != null;
-			serverAdapt.sendActionBar(player, message);
+		// Checks if the server version is equals or higher to 1.13
+		if (canSupport(13)) {
+			player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(message));
+			return;
 		}
+		
+		assert serverAdapt != null;
+		serverAdapt.sendActionBar(player, message);
 	}
 	
 	@Override
@@ -111,7 +121,7 @@ public class SimpleTitleManager implements TitleManager {
 			@Override
 			public void run() {
 				// Checks if the server version is equals or higher to 1.17
-				if (canSupport(17)) player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(message));
+				if (canSupport(13)) player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(message));
 				else {
 					assert serverAdapt != null;
 					serverAdapt.sendActionBar(player, message);
