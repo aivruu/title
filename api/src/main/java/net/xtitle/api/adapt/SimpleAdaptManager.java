@@ -15,8 +15,8 @@ public class SimpleAdaptManager implements AdaptManager {
 	public void adapt(SimpleAdapt adapt) {
 		Preconditions.checkNotNull(adapt, "The adapt to set can't be null, please specify a valid adapt.");
 		
-		// If the server version is equals or higher to 1.17, the adapt is not necessary.
-		if (XTitle.canSupport(17)) return;
+		// If the server version is equals or higher to 1.13, the adapt is not necessary.
+		if (XTitle.canSupport(13)) return;
 		
 		currentAdapt = adapt;
 	}
@@ -38,7 +38,7 @@ public class SimpleAdaptManager implements AdaptManager {
 	
 	@Override
 	public SimpleAdapt getAdapt() {
-		if (currentAdapt == null) throw new IllegalStateException("");
+		if (currentAdapt == null) throw new IllegalStateException("The adapt for this server isn't established!");
 		
 		return currentAdapt;
 	}
