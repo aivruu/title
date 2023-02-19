@@ -3,6 +3,8 @@ package net.xtitle.api;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.util.List;
+
 /**
  * Interface for manage and send visual Titles, ActionBars or Headers/Footers.
  */
@@ -36,6 +38,18 @@ public interface TitleManager {
 	void sendTitle(Player player, int fadeIn, int stay, int fadeOut, String title, String subtitle);
 	
 	/**
+	 * Sends an animated title to the player.
+	 *
+	 * @param plugin A JavaPlugin object/instance.
+	 * @param player Player object.
+	 * @param duration The duration for show the animation.
+	 * @param animationRate The update-rate for the animation.
+	 * @param titleContent The text lines for the title.
+	 * @param subtitleContent The text lines for the subtitle.
+	 */
+	void sendAnimatedTitle(JavaPlugin plugin, Player player, long duration, int animationRate, List<String> titleContent, List<String> subtitleContent);
+	
+	/**
 	 * Sends a new Header/Footer format for the player tab-list.
 	 *
 	 * @param player Player object.
@@ -60,7 +74,18 @@ public interface TitleManager {
 	 * @param plugin A JavaPlugin object/instance.
 	 * @param player Player object.
 	 * @param message The actionbar message.
-	 * @param duration The duration.
+	 * @param duration The duration for the actionbar.
 	 */
 	void sendActionBar(JavaPlugin plugin, Player player, String message, long duration);
+	
+	/**
+	 * Sends an animated actionbar message.
+	 *
+	 * @param plugin A JavaPlugin object/instance.
+	 * @param player Player object.
+	 * @param contentMessage The content message for the animation.
+	 * @param animationDelay The delay value for the actionbar task.
+	 * @param duration The duration for show the animation.
+	 */
+	void sendAnimatedActionBar(JavaPlugin plugin, Player player, List<String> contentMessage, int animationDelay, long duration);
 }
