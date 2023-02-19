@@ -2,4 +2,4 @@ jdk:
   - openjdk8
 
 install:
-  - "bash gradlew shadowJar publishToMavenLocal"
+  - "bash gradlew javadoc shadowJar publishToMavenLocal"
