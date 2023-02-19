@@ -7,6 +7,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.util.List;
+
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkArgument;
 import static net.xtitle.api.XTitle.canSupport;
@@ -71,6 +73,36 @@ public class SimpleTitleManager implements TitleManager {
 	}
 	
 	@Override
+	public void sendAnimatedTitle(JavaPlugin plugin, Player player, long duration, int animationRate, List<String> titleContent, List<String> subtitleContent) {
+		checkNotNull(plugin, "The JavaPlugin instance is null.");
+		checkNotNull(player, "The player can't be null.");
+		checkNotNull(titleContent, "The title message content can't be null.");
+		checkNotNull(subtitleContent, "The subtitle message content is null.");
+		
+		if ((duration < 1) || animationRate < 1) return;
+		
+		new BukkitRunnable() {
+			int rate = animationRate;
+			long repeater = duration;
+			
+			@Override
+			public void run() {
+				if ((rate == titleContent.size() - 1) || (rate == subtitleContent.size() - 1)) rate = 0;
+				rate++;
+				
+				if (canSupport(13)) player.sendTitle(titleContent.get(rate), subtitleContent.get(rate), 1, 80, 1);
+				else {
+					assert serverAdapt != null;
+					serverAdapt.sendTitle(player, titleContent.get(rate), subtitleContent.get(rate), 1, 80, 1);
+				}
+				
+				repeater -= 40L;
+				if (repeater - 40L < -20L) cancel();
+			}
+		}.runTaskTimerAsynchronously(plugin, 0L, animationRate);
+	}
+	
+	@Override
 	public void sendTabList(Player player, String footer, String header) {
 		checkNotNull(player, "The player can't be null.");
 		
@@ -131,5 +163,38 @@ public class SimpleTitleManager implements TitleManager {
 				if (repeater - 40L < -20L) cancel();
 			}
 		}.runTaskTimerAsynchronously(plugin, 0L, 40L);
+	}
+	
+	@Override
+	public void sendAnimatedActionBar(JavaPlugin plugin, Player player, List<String> contentMessage, int animationDelay, long duration) {
+		checkNotNull(plugin, "The JavaPlugin instance is null.");
+		checkNotNull(player, "The subtitle message is null.");
+		checkNotNull(contentMessage, "The actionbar content message can't be null.");
+		
+		if ((duration < 1) || animationDelay < 1) return;
+		
+		new BukkitRunnable() {
+			int rate = animationDelay;
+			long repeater = duration;
+			
+			@Override
+			public void run() {
+				if (rate == contentMessage.size() - 1) {
+					cancel();
+					return;
+				}
+				
+				rate++;
+				
+				if (canSupport(13)) player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(contentMessage.get(rate)));
+				else {
+					assert serverAdapt != null;
+					serverAdapt.sendActionBar(player, contentMessage.get(rate));
+				}
+				
+				repeater -= 40L;
+				if (repeater - 40L < -20L) cancel();
+			}
+		}.runTaskTimerAsynchronously(plugin, 0L, animationDelay);
 	}
 }
