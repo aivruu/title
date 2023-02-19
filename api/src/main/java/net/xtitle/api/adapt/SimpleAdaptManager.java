@@ -5,24 +5,31 @@ import net.xtitle.api.XTitle;
 import org.bukkit.Bukkit;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.Objects;
+import java.util.logging.Logger;
 
 public class SimpleAdaptManager implements AdaptManager {
+	private final Logger logger;
+	
 	private SimpleAdapt currentAdapt;
 	
-	public SimpleAdaptManager() {}
-	
-	@Override
-	public void adapt(SimpleAdapt adapt) {
-		Preconditions.checkNotNull(adapt, "The adapt to set can't be null, please specify a valid adapt.");
-		
-		// If the server version is equals or higher to 1.13, the adapt is not necessary.
-		if (XTitle.canSupport(13)) return;
-		
-		currentAdapt = adapt;
+	public SimpleAdaptManager(Logger logger) {
+		this.logger = Objects.requireNonNull(logger, "The Logger object from plugin cannot be null.");
 	}
 	
 	@Override
-	public void findAdapt() {
+	public AdaptManager adapt(SimpleAdapt adapt) {
+		Preconditions.checkNotNull(adapt, "The adapt to set can't be null, please specify a valid adapt.");
+		
+		// If the server version is equals or higher to 1.13, the adapt is not necessary and will return null.
+		if (XTitle.canSupport(13)) return null;
+		
+		currentAdapt = adapt;
+		return this;
+	}
+	
+	@Override
+	public AdaptManager findAdapt() {
 		String packageName = Bukkit.getServer().getClass().getPackage().getName();
 		
 		try {
@@ -30,16 +37,17 @@ public class SimpleAdaptManager implements AdaptManager {
 			if (SimpleAdapt.class.isAssignableFrom(clazz)) currentAdapt = (SimpleAdapt) clazz.getConstructor().newInstance();
 		} catch (InvocationTargetException | InstantiationException | NoSuchMethodException | ClassNotFoundException
 					| IllegalAccessException exception) {
-			Bukkit.getLogger().severe("Cannot found the adapt required for this server version, check if this server version is supported.");
-			Bukkit.getLogger().severe("Or check if you've the adapt necessary.");
+			logger.severe("Cannot found the adapt required for this server version, check if this server version is supported.");
+			logger.severe("Or check if you've the adapt necessary.");
 			exception.printStackTrace();
+			return null;
 		}
+		
+		return this;
 	}
 	
 	@Override
 	public SimpleAdapt getAdapt() {
-		if (currentAdapt == null) throw new IllegalStateException("The adapt for this server isn't established!");
-		
 		return currentAdapt;
 	}
 }
