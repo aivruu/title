@@ -1,17 +1,20 @@
-package net.xtitle.adapt.v1_12_R1;
+package com.aivruu.title.adapt.v1_9_R2;
 
 import io.netty.buffer.Unpooled;
-import net.minecraft.server.v1_12_R1.*;
+import net.minecraft.server.v1_9_R2.IChatBaseComponent;
+import net.minecraft.server.v1_9_R2.PacketDataSerializer;
+import net.minecraft.server.v1_9_R2.PacketPlayOutChat;
+import net.minecraft.server.v1_9_R2.PacketPlayOutPlayerListHeaderFooter;
+import net.minecraft.server.v1_9_R2.PacketPlayOutTitle;
+import net.minecraft.server.v1_9_R2.PlayerConnection;
 import com.aivruu.title.adapt.ServerAdaptModel;
-import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_9_R2.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
-import java.util.Objects;
 
-public class AdaptHandler
-implements ServerAdaptModel {
+public class AdaptHandler implements ServerAdaptModel {
 	private final String json;
 	private final PacketDataSerializer serializer;
 	
@@ -56,18 +59,7 @@ implements ServerAdaptModel {
 	
 	@Override
 	public void setHeader(final @NotNull Player player, final @NotNull String content) {
-		final PacketPlayOutPlayerListHeaderFooter packet = new PacketPlayOutPlayerListHeaderFooter();
-		
-		serializer.a(parse(""));
-		serializer.a(parse(content));
-		
-		try {
-			packet.a(serializer);
-		} catch (final IOException exception) {
-			exception.printStackTrace();
-		}
-		
-		((CraftPlayer) player).getHandle().playerConnection.sendPacket(packet);
+		((CraftPlayer) player).getHandle().playerConnection.sendPacket(new PacketPlayOutPlayerListHeaderFooter(parse(content)));
 	}
 	
 	@Override
@@ -88,10 +80,10 @@ implements ServerAdaptModel {
 	
 	@Override
 	public void showActionBar(final @NotNull Player player, final @NotNull String message) {
-		((CraftPlayer) player).getHandle().playerConnection.sendPacket(new PacketPlayOutChat(parse(message), ChatMessageType.GAME_INFO));
+		((CraftPlayer) player).getHandle().playerConnection.sendPacket(new PacketPlayOutChat(parse(message), (byte) 2));
 	}
 	
 	private @NotNull IChatBaseComponent parse(final @NotNull String text) {
-		return Objects.requireNonNull(IChatBaseComponent.ChatSerializer.a(String.format(json, text)));
+		return IChatBaseComponent.ChatSerializer.a(String.format(json, text));
 	}
 }
