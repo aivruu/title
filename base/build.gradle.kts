@@ -16,17 +16,7 @@ repositories {
 dependencies {
 	compileOnly("org.spigotmc:spigot-api:1.19.4-R0.1-SNAPSHOT")
 	
-	compileAdapts("v1_8_R3", "v1_9_R2", "v1_10_R1", "v1_11_R1", "v1_12_R1")
-	
 	implementation("org.jetbrains:annotations:24.0.1")
-}
-
-fun compileAdapts(vararg adapts: String) {
-	dependencies {
-		for (adapt in adapts) {
-			implementation(project(":adapt:$adapt"))
-		}
-	}
 }
 
 tasks {
