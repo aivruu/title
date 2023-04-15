@@ -1,6 +1,7 @@
 plugins {
 	`java-library`
 	`maven-publish`
+	id("com.github.johnrengelman.shadow") version("7.1.2")
 }
 
 val directory = property("group") as String
@@ -17,6 +18,21 @@ dependencies {
 	
 	implementation(project(":base"))
 	implementation("org.jetbrains:annotations:24.0.1")
+}
+
+tasks {
+	shadowJar {
+		archiveClassifier.set("")
+		archiveFileName.set("title-v1_11_R1-v$release.jar")
+		
+		destinationDirectory.set(file("$rootDir/bin/"))
+		
+		relocate("org.jetbrains.annotations", "$directory.v1_11_R1.libs.annotations")
+	}
+	
+	clean {
+		delete("$rootDir/bin/")
+	}
 }
 
 publishing {
