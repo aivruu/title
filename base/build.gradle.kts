@@ -23,6 +23,7 @@ tasks {
 	shadowJar {
 		archiveClassifier.set("")
 		archiveFileName.set("title-v$release.jar")
+		minimize()
 		
 		destinationDirectory.set(file("$rootDir/bin/"))
 	
