@@ -5,5 +5,5 @@
 build
 
 .idea
-.log
 bin
+.log
