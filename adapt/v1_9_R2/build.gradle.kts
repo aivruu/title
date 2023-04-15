@@ -1,12 +1,13 @@
 plugins {
-	id("com.github.johnrengelman.shadow") version("7.1.2")
 	`java-library`
 	`maven-publish`
 }
 
+val directory = property("group") as String
 val release = property("version") as String
 
 repositories {
+	mavenLocal()
 	maven("https://repo.codemc.org/repository/nms/")
 	mavenCentral()
 }
@@ -14,24 +15,14 @@ repositories {
 dependencies {
 	compileOnly("org.spigotmc:spigot:1.9.4-R0.1-SNAPSHOT")
 	
-	implementation(project(":api"))
-}
-
-tasks {
-	shadowJar {
-		archiveFileName.set("XTitle-adapt-v1_9_R2-$release.jar")
-		destinationDirectory.set(file("$rootDir/bin/"))
-	}
-	
-	clean {
-		delete("$rootDir/bin/")
-	}
+	implementation(project(":base"))
+	implementation("org.jetbrains:annotations:24.0.1")
 }
 
 publishing {
 	publications {
 		create<MavenPublication>("maven") {
-			groupId = "net.xtitle.adapt"
+			groupId = directory
 			artifactId = "adapt-v1_9_R2"
 			version = release
 			
