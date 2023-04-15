@@ -1,4 +1,4 @@
-package net.xtitle.adapt.v1_12_R1;
+package com.aivruu.title.adapt.v1_12_R1;
 
 import io.netty.buffer.Unpooled;
 import net.minecraft.server.v1_12_R1.*;
