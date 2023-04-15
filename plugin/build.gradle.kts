@@ -1,6 +1,6 @@
 plugins {
 	id("java")
-    id("net.minecrell.plugin-yml.bukkit") version("0.5.3")
+	id("net.minecrell.plugin-yml.bukkit") version("0.5.3")
 }
 
 repositories {
@@ -13,21 +13,23 @@ dependencies {
 	compileOnly("org.spigotmc:spigot-api:1.8.8-R0.1-SNAPSHOT")
 	
 	implementation(project(":base"))
+	implementation(project(":adapt:v1_8_R3"))
 }
 
 bukkit {
-    var directory = property("group") as String
+	val directory = property("group") as String
+	val release = property("version") as String
 
-    name = "PluginTest"
-    main = "$directory.PluginTest"
-    authors = listOf("InitSync")
+	name = "PluginTest"
+	main = "$directory.PluginTest"
+	authors = listOf("InitSync")
 
-    apiVersion = "1.13"
-    version = "0.0.1"
+	apiVersion = "1.13"
+	version = release
 
-    commands {
-        register("test") {
-            description = "Test command."
-        }
-    }
+	commands {
+		register("test") {
+			description = "Test command."
+		}
+	}
 }
