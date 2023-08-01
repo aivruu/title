@@ -6,6 +6,7 @@ plugins {
 
 val directory = property("group") as String
 val release = property("version") as String
+val buildId = property("build") as String
 
 repositories {
 	mavenLocal()
@@ -14,17 +15,17 @@ repositories {
 }
 
 dependencies {
-	compileOnly("org.spigotmc:spigot-api:1.19.4-R0.1-SNAPSHOT")
+	compileOnly("org.spigotmc", "spigot-api", "1.19.4-R0.1-SNAPSHOT")
 	
-	implementation("org.jetbrains:annotations:24.0.1")
+	implementation("org.jetbrains", "annotations", "24.0.1")
 }
 
 tasks {
 	shadowJar {
 		archiveClassifier.set("")
-		archiveFileName.set("title-v$release.jar")
-		minimize()
+		archiveFileName.set("title-v$release-$buildId.jar")
 		
+		minimize()
 		destinationDirectory.set(file("$rootDir/bin/"))
 	
 		relocate("org.jetbrains.annotations", "$directory.libs.annotations")
@@ -40,7 +41,7 @@ publishing {
 		create<MavenPublication>("maven") {
 			groupId = directory
 			artifactId = "base"
-			version = release
+			version = "$release-$buildId"
 			
 			from(components["java"])
 		}
