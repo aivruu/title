@@ -10,9 +10,9 @@
 
 # Import
 ```gradle
-implementation("com.github.aivruu.title:base:1.0.5")
-implementation("com.github.aivruu.title:adapt-v1_9_R2:1.0.5")
-// See the available adapts in 'adapt/'.
+implementation("com.github.aivruu.title:base:RELEASE")
+implementation("com.github.aivruu.title:ADAPT:RELEASE")
+// Check the available adapts in 'adapt/'.
 
 shadowJar {
   relocate("com.aivruu.title", "com.yourPackage.libs.title")
