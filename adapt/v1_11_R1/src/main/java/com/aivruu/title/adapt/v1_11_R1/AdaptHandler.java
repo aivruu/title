@@ -19,6 +19,8 @@ public class AdaptHandler implements ServerAdaptModel {
 	private final String json;
 	private final PacketDataSerializer serializer;
 	
+	private PacketPlayOutPlayerListHeaderFooter headerFooterPacket;
+	
 	public AdaptHandler() {
 		json = "{\"text\": \"%s\"}";
 		serializer = new PacketDataSerializer(Unpooled.buffer());
@@ -35,56 +37,61 @@ public class AdaptHandler implements ServerAdaptModel {
 	) {
 		final PlayerConnection connection = ((CraftPlayer) player).getHandle().playerConnection;
 		
-		// Performs the packet for time values.
+		// Sends the packet for time values.
 		connection.sendPacket(new PacketPlayOutTitle(fadeIn, stay, fadeOut));
 
-		connection.sendPacket(new PacketPlayOutTitle(PacketPlayOutTitle.EnumTitleAction.TITLE, parse(title)));
-		connection.sendPacket(new PacketPlayOutTitle(PacketPlayOutTitle.EnumTitleAction.SUBTITLE, parse(subtitle)));
+		connection.sendPacket(new PacketPlayOutTitle(
+			PacketPlayOutTitle.EnumTitleAction.TITLE,
+			IChatBaseComponent.ChatSerializer.a(String.format(json, title))
+		));
+		connection.sendPacket(new PacketPlayOutTitle(
+			PacketPlayOutTitle.EnumTitleAction.SUBTITLE,
+			IChatBaseComponent.ChatSerializer.a(String.format(json, subtitle))
+		));
 	}
 	
 	@Override
 	public void setHeaderAndFooter(final @NotNull Player player, final @NotNull String header, final @NotNull String footer) {
-		final PacketPlayOutPlayerListHeaderFooter packet = new PacketPlayOutPlayerListHeaderFooter();
+		headerFooterPacket = new PacketPlayOutPlayerListHeaderFooter();
 		
-		serializer.a(parse(footer));
-		serializer.a(parse(header));
+		serializer.a(IChatBaseComponent.ChatSerializer.a(String.format(json, footer)));
+		serializer.a(IChatBaseComponent.ChatSerializer.a(String.format(json, header)));
 		
 		try {
-			packet.a(serializer);
+			headerFooterPacket.a(serializer);
 		} catch (final IOException exception) {
 			exception.printStackTrace();
 		}
 		
-		((CraftPlayer) player).getHandle().playerConnection.sendPacket(packet);
+		((CraftPlayer) player).getHandle().playerConnection.sendPacket(headerFooterPacket);
 	}
 	
 	@Override
 	public void setHeader(final @NotNull Player player, final @NotNull String content) {
-		((CraftPlayer) player).getHandle().playerConnection.sendPacket(new PacketPlayOutPlayerListHeaderFooter(parse(content)));
+		((CraftPlayer) player).getHandle()
+			.playerConnection
+			.sendPacket(new PacketPlayOutPlayerListHeaderFooter(IChatBaseComponent.ChatSerializer.a(String.format(json, content))));
 	}
 	
 	@Override
 	public void setFooter(final @NotNull Player player, final @NotNull String content) {
-		final PacketPlayOutPlayerListHeaderFooter packet = new PacketPlayOutPlayerListHeaderFooter();
+		headerFooterPacket = new PacketPlayOutPlayerListHeaderFooter();
 		
-		serializer.a(parse(content));
-		serializer.a(parse(""));
+		serializer.a(IChatBaseComponent.ChatSerializer.a(String.format(json, content)));
 		
 		try {
-			packet.a(serializer);
+			headerFooterPacket.a(serializer);
 		} catch (final IOException exception) {
 			exception.printStackTrace();
 		}
 		
-		((CraftPlayer) player).getHandle().playerConnection.sendPacket(packet);
+		((CraftPlayer) player).getHandle().playerConnection.sendPacket(headerFooterPacket);
 	}
 	
 	@Override
 	public void showActionBar(final @NotNull Player player, final @NotNull String message) {
-		((CraftPlayer) player).getHandle().playerConnection.sendPacket(new PacketPlayOutChat(parse(message), (byte) 2));
-	}
-	
-	private @NotNull IChatBaseComponent parse(final @NotNull String text) {
-		return Objects.requireNonNull(IChatBaseComponent.ChatSerializer.a(String.format(json, text)));
+		((CraftPlayer) player).getHandle()
+			.playerConnection
+			.sendPacket(new PacketPlayOutChat(IChatBaseComponent.ChatSerializer.a(String.format(json, message)), (byte) 2));
 	}
 }
