@@ -93,7 +93,7 @@ public class SimpleTitleManagerImpl implements TitleManager {
 			throw new IllegalArgumentException("The actionbar duration cannot be equal or lower than zero.");
 		}
 		
-		final BaseComponent[] parsedMessage = TextComponent.fromLegacyText(message);
+		BaseComponent[] parsedMessage = TextComponent.fromLegacyText(message);
 		
 		new BukkitRunnable() {
 			long repeater = (long) durationSeconds * 20;
@@ -113,5 +113,7 @@ public class SimpleTitleManagerImpl implements TitleManager {
 				}
 			}
 		}.runTaskTimerAsynchronously(plugin, 0L, 40L);
+		
+		parsedMessage = null;
 	}
 }
