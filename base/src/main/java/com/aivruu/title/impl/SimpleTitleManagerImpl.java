@@ -1,9 +1,10 @@
 package com.aivruu.title.impl;
 
+import com.aivruu.title.Constants;
 import com.aivruu.title.adapt.ServerAdaptModel;
 import com.aivruu.title.model.TitleManager;
-import com.aivruu.title.utils.VersionUtils;
 import net.md_5.bungee.api.ChatMessageType;
+import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -26,7 +27,7 @@ public class SimpleTitleManagerImpl implements TitleManager {
 	
 	@Override
 	public void showTitle(final @NotNull Player player, final @NotNull String title, final @NotNull String subtitle) {
-		if (VersionUtils.equalsOrHigher(13)) {
+		if (Constants.SERVER_VERSION > 12) {
 			player.sendTitle(title, subtitle, 20, 60, 20);
 			return;
 		}
@@ -44,7 +45,7 @@ public class SimpleTitleManagerImpl implements TitleManager {
 		final int stay,
 		final int fadeOut
 	) {
-		if (VersionUtils.equalsOrHigher(13)) {
+		if (Constants.SERVER_VERSION > 12) {
 			player.sendTitle(title, subtitle, fadeIn, stay, fadeOut);
 			return;
 		}
@@ -55,7 +56,7 @@ public class SimpleTitleManagerImpl implements TitleManager {
 	
 	@Override
 	public void setHeaderAndFooter(final @NotNull Player player, final @NotNull String header, final @NotNull String footer) {
-		if (VersionUtils.equalsOrHigher(13)) {
+		if (Constants.SERVER_VERSION > 12) {
 			player.setPlayerListHeaderFooter(header, footer);
 			return;
 		}
@@ -66,7 +67,7 @@ public class SimpleTitleManagerImpl implements TitleManager {
 	
 	@Override
 	public void setHeader(final @NotNull Player player, final @NotNull String header) {
-		if (VersionUtils.equalsOrHigher(13)) {
+		if (Constants.SERVER_VERSION > 12) {
 			player.setPlayerListHeader(header);
 			return;
 		}
@@ -77,7 +78,7 @@ public class SimpleTitleManagerImpl implements TitleManager {
 	
 	@Override
 	public void setFooter(final @NotNull Player player, final @NotNull String footer) {
-		if (VersionUtils.equalsOrHigher(13)) {
+		if (Constants.SERVER_VERSION > 12) {
 			player.setPlayerListFooter(footer);
 			return;
 		}
@@ -92,13 +93,15 @@ public class SimpleTitleManagerImpl implements TitleManager {
 			throw new IllegalArgumentException("The actionbar duration cannot be equal or lower than zero.");
 		}
 		
+		final BaseComponent[] parsedMessage = TextComponent.fromLegacyText(message);
+		
 		new BukkitRunnable() {
 			long repeater = (long) durationSeconds * 20;
 			
 			@Override
 			public void run() {
-				if (VersionUtils.equalsOrHigher(13)) {
-					player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(message));
+				if (Constants.SERVER_VERSION > 12) {
+					player.spigot().sendMessage(ChatMessageType.ACTION_BAR, parsedMessage);
 				} else {
 					assert adapt != null;
 					adapt.showActionBar(player, message);
@@ -108,7 +111,6 @@ public class SimpleTitleManagerImpl implements TitleManager {
 				if (repeater - 40L < -20L) {
 					cancel();
 				}
-				
 			}
 		}.runTaskTimerAsynchronously(plugin, 0L, 40L);
 	}
