@@ -1,8 +1,9 @@
 package com.aivruu.title.impl;
 
+import com.aivruu.title.Constants;
 import com.aivruu.title.adapt.ServerAdaptModel;
 import com.aivruu.title.model.AdaptManager;
-import com.aivruu.title.utils.VersionUtils;
+import com.google.common.base.Preconditions;
 import org.bukkit.Bukkit;
 import org.jetbrains.annotations.NotNull;
 
@@ -13,15 +14,15 @@ public class SimpleAdaptManagerImpl implements AdaptManager {
 	
 	@Override
 	public boolean of(final @NotNull ServerAdaptModel adapt) {
-		if (VersionUtils.equalsOrHigher(13)) return false;
+		if (Constants.SERVER_VERSION > 12) return false;
 		
-		this.adapt = adapt;
+		this.adapt = Preconditions.checkNotNull(adapt, "ServerAdaptModel impl cannot be null.");
 		return true;
 	}
 	
 	@Override
 	public boolean find() {
-		if (VersionUtils.equalsOrHigher(13)) return false;
+		if (Constants.SERVER_VERSION > 12) return false;
 		
 		final String packageName = Bukkit.getServer().getClass().getPackage().getName();
 		final String version = packageName.substring(packageName.lastIndexOf('.') + 1);
