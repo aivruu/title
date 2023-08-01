@@ -10,7 +10,7 @@ repositories {
 }
 
 dependencies {
-	compileOnly("org.spigotmc:spigot-api:1.8.8-R0.1-SNAPSHOT")
+	compileOnly("org.spigotmc" , "spigot-api", "1.8.8-R0.1-SNAPSHOT")
 	
 	implementation(project(":base"))
 	implementation(project(":adapt:v1_8_R3"))
